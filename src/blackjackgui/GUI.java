@@ -149,6 +149,7 @@ public class GUI extends JPanel implements ActionListener {
             graphicsPanel.stand();
             s.setVisible(false);
             b.setVisible(false);
+            exit.setBounds(580, 580, 100, 50);
             new Thread(() -> {
                 while (deck.d_sum < 16) {
                     int index = deck.DrawCard(deck.cards, false);
