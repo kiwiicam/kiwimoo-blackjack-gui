@@ -16,7 +16,7 @@ public class GraphicsPanel extends JPanel {
 
     public boolean rectvisi;
     public static final Color VERY_LIGHT_BLUE = new Color(51, 204, 255);
-    public static final Color DARK_GREEN = new Color(0, 153, 0);
+    public static final Color DARK_GREEN = new Color(0, 153, 0, 128);
     private String message4;
     private String message3;
     private String message2;
@@ -44,7 +44,7 @@ public class GraphicsPanel extends JPanel {
         this.Psum = 0;
         sum = new Sum();
         this.cardImages = new ArrayList<>();
-        this.bg2 = new ImageIcon("./resources/bg2.jpg").getImage();
+        this.bg2 = new ImageIcon("./resources/bg.jpg").getImage();
         try {
             for (String card : cards) {
                 this.cardImages.add(new ImageIcon("./resources/" + card + ".png").getImage());
@@ -59,32 +59,32 @@ public class GraphicsPanel extends JPanel {
         super.paintComponent(g);
         int width = getWidth();
         int height = getHeight();
-        g.drawImage(bg2, 0, 0, width, height, null);
+        g.drawImage(bg2, 0, 0, getWidth(), getHeight(), this);
         g.setColor(DARK_GREEN);
 
         if (rectvisi != false) {
-            g.fillRect(width/2-100, height/2+200, 250, 50);
-            g.fillRect(width/2-100, height/2, 250, 50);
+            g.fillRect(width/2-100, height/2+180, 250, 50);
+            g.fillRect(width/2-100, height/2-20, 250, 50);
             g.fillRect(50, 100, 230, 230);
             
         }
 
         for (int i = 0; i < printedImages.size(); i++) {
             if (index != -1) {
-                g.drawImage(printedImages.get(i), width / 2 - 100 + space + (i * 30), height / 2 + 100, 60, 80, this);
+                g.drawImage(printedImages.get(i), width / 2 - 100 + space + (i * 30), height / 2 + 80, 60, 80, this);
             }
         }
             for (int j = 0; j < printedImages2.size(); j++) {
             if (index2 != -1) {
-                g.drawImage(printedImages2.get(j), width / 2 - 100 + space + (j * 30), height / 2 - 100, 60, 80, this);
+                g.drawImage(printedImages2.get(j), width / 2 - 100 + space + (j * 30), height / 2 - 120, 60, 80, this);
             }
         }
         g.setColor(VERY_LIGHT_BLUE);
-        g.drawString(message, width/2-90, height/2+215);
-        g.drawString(message2, width/2-90, height/2+240);
+        g.drawString(message, width/2-90, height/2+195);
+        g.drawString(message2, width/2-90, height/2+220);
         
-        g.drawString(message3, width/2-90, height/2+15);
-        g.drawString(message4, width/2-90, height/2+40);
+        g.drawString(message3, width/2-90, height/2-5);
+        g.drawString(message4, width/2-90, height/2+20);
 
     }
 

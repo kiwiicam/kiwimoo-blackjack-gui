@@ -64,6 +64,10 @@ public class Sum {
             if(num){
             PlayerSum(10); 
             }
+            else
+            {
+                DealerSum(10);
+            }
         } else {
             try {
                 if(num){
@@ -85,6 +89,10 @@ public class Sum {
     }
     //method for checking if the drawn card is a picture card;
     public void Picture(String value)
+    {
+        
+    }
+    public void Checksum()
     {
         
     }

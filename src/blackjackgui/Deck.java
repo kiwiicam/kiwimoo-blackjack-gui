@@ -77,7 +77,7 @@ public class Deck {
         else
         {
             sum.Checks(value, false);
-             this.d_sum = sum.getdSum();
+            d_sum = sum.getdSum();
             cards.remove(randomNumber);
         }
         
