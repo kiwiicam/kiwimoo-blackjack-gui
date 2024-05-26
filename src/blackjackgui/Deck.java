@@ -108,5 +108,10 @@ public class Deck {
 //        print.DrawCard(print.cards);
 //        System.out.println(print.DeckSize());
     }
+    
+    public int getSum()
+    {
+        return p_sum;
+    }
 
 }

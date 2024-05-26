@@ -2,8 +2,8 @@
 package blackjackgui;
 
 public class Sum {
-    private int sum;
-    private int dSum;
+    public int sum;
+    public int dSum;
     //sum constructor
     public Sum()
     {
