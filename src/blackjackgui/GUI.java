@@ -137,9 +137,9 @@ public class GUI extends JPanel implements ActionListener {
         back.setVisible(false);
         back.addActionListener(this);
         mainPanel.add(back);
-        
+
         playg = new JButton("Play Again");
-        playg.setBounds(480, 580, 100, 50);
+        playg.setBounds(200, 580, 100, 50);
         playg.setBackground(VERY_LIGHT_BLUE);
         playg.setVisible(false);
         playg.addActionListener(this);
@@ -252,36 +252,14 @@ public class GUI extends JPanel implements ActionListener {
             boolean isBust = gameLogic.BustLogic(deck.p_sum);
             if (isBust) {
                 PlayerWin(false);
+            } else if (deck.p_sum == 21) {
+                graphicsPanel.stand();
+                Stand();
             }
 
         } else if (e.getSource() == s) {
             graphicsPanel.stand();
-            s.setVisible(false);
-            b.setVisible(false);
-            quit.setBounds(580, 580, 100, 50);
-            playg.setVisible(true);
-
-            new Thread(() -> {
-                while (deck.d_sum <= 16) {
-                    int index = deck.DrawCard(deck.cards, false);
-                    graphicsPanel.dHit(index, deck.d_sum, deck.getValue(), deck.getSuit());
-                    card.getImageCards().remove(index);
-                    try {
-                        Thread.sleep(1500);
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
-                    boolean isBust = gameLogic.BustLogic(deck.d_sum);
-                    System.out.println(isBust);
-                    if (isBust) {
-                        DealerWin(false);
-                    } else {
-
-                    }
-                }
-                //graphicsPanel.setMessage4("The Dealer has stood!");
-            }).start();
-            graphicsPanel.setMessage4("Dealer has stood!!!");
+            Stand();
 
         } else if (e.getSource() == play) {
             game();
@@ -296,11 +274,10 @@ public class GUI extends JPanel implements ActionListener {
             instruct.setVisible(true);
             play.setVisible(true);
             quit.setVisible(true);
-        }
-        else if (e.getSource() == play)
-        {
-            GUI g = new GUI();
-            
+        } else if (e.getSource() == playg) {
+            resetGame();
+            game();
+
         }
     }
 
@@ -312,12 +289,30 @@ public class GUI extends JPanel implements ActionListener {
         return graphicsPanel;
     }
 
+    public void Logic() {
+        if (deck.p_sum == deck.d_sum) {
+            graphicsPanel.setMessage2("ITS A TIE!!!!");
+            graphicsPanel.setMessage4("ITS A TIE!!!!");
+        } else if (deck.d_sum > 21) {
+            graphicsPanel.setMessage2("DEALER BUSTED, YOU WIN!");
+        } else if (deck.p_sum > deck.d_sum && deck.p_sum <= 21) {
+            graphicsPanel.setMessage2("YOU HAVE WON!");
+        } else {
+            graphicsPanel.setMessage2("YOU HAVE LOST!!!!");
+        }
+        b.setVisible(false);
+        s.setVisible(false);
+        quit.setBounds(580, 580, 100, 50);
+        playg.setVisible(true);
+    }
+
     public void PlayerWin(boolean win) {
         if (win != true) {
             graphicsPanel.setMessage2("YOU LOOOOSE LLLLL!!!!!!!!");
             b.setVisible(false);
             s.setVisible(false);
             quit.setBounds(580, 580, 100, 50);
+            playg.setVisible(true);
         }
     }
 
@@ -327,7 +322,60 @@ public class GUI extends JPanel implements ActionListener {
             b.setVisible(false);
             s.setVisible(false);
             quit.setBounds(580, 580, 100, 50);
+            playg.setVisible(true);
         }
+
+    }
+
+    public void resetGame() {
+        mainPanel.remove(graphicsPanel);
+        graphicsPanel.Reset();
+        deck = new Deck(1);
+        card = new Card(deck.getCards());
+        graphicsPanel = new GraphicsPanel(card.getImageCards());
+        deck.p_sum = 0;
+        deck.d_sum = 0;
+
+        play.setVisible(false);
+        instruct.setVisible(false);
+        quit.setBounds(690, 580, 100, 50);
+        b.setVisible(true);
+        s.setVisible(true);
+        back.setVisible(false);
+        playg.setVisible(false);
+        graphicsPanel.setBounds(250, 60, 800, 500);
+        mainPanel.add(graphicsPanel);
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+
+    public void Stand() {
+        s.setVisible(false);
+        b.setVisible(false);
+        quit.setBounds(580, 580, 100, 50);
+
+        new Thread(() -> {
+            while (deck.d_sum <= 16) {
+                int index = deck.DrawCard(deck.cards, false);
+                graphicsPanel.dHit(index, deck.d_sum, deck.getValue(), deck.getSuit());
+                card.getImageCards().remove(index);
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+                boolean isBust = gameLogic.BustLogic(deck.d_sum);
+                System.out.println(isBust);
+                if (isBust) {
+                    DealerWin(false);
+                } else {
+
+                }
+            }
+            //graphicsPanel.setMessage4("The Dealer has stood!");
+            Logic();
+        }).start();
+        graphicsPanel.setMessage4("Dealer has stood!!!");
 
     }
 

@@ -63,10 +63,10 @@ public class GraphicsPanel extends JPanel {
         g.setColor(DARK_GREEN);
 
         if (rectvisi != false) {
-            g.fillRect(width/2-100, height/2+180, 250, 50);
-            g.fillRect(width/2-100, height/2-20, 250, 50);
+            g.fillRect(width / 2 - 100, height / 2 + 180, 250, 50);
+            g.fillRect(width / 2 - 100, height / 2 - 20, 250, 50);
             g.fillRect(50, 100, 230, 230);
-            
+
         }
 
         for (int i = 0; i < printedImages.size(); i++) {
@@ -74,36 +74,37 @@ public class GraphicsPanel extends JPanel {
                 g.drawImage(printedImages.get(i), width / 2 - 100 + space + (i * 30), height / 2 + 80, 60, 80, this);
             }
         }
-            for (int j = 0; j < printedImages2.size(); j++) {
+        for (int j = 0; j < printedImages2.size(); j++) {
             if (index2 != -1) {
                 g.drawImage(printedImages2.get(j), width / 2 - 100 + space + (j * 30), height / 2 - 120, 60, 80, this);
             }
         }
         g.setColor(VERY_LIGHT_BLUE);
-        g.drawString(message, width/2-90, height/2+195);
-        g.drawString(message2, width/2-90, height/2+220);
-        
-        g.drawString(message3, width/2-90, height/2-5);
-        g.drawString(message4, width/2-90, height/2+20);
+        g.drawString(message, width / 2 - 90, height / 2 + 195);
+        g.drawString(message2, width / 2 - 90, height / 2 + 220);
+
+        g.drawString(message3, width / 2 - 90, height / 2 - 5);
+        g.drawString(message4, width / 2 - 90, height / 2 + 20);
 
     }
 
     public ArrayList<Image> getcardImages() {
         return cardImages;
     }
-    public void dHit(int drawNum, int dsum, String value, String suit)
-    {
+
+    public void dHit(int drawNum, int dsum, String value, String suit) {
         setMessage3("Dealer sum is " + dsum);
-        setMessage4("Dealer has drawn a "+ value + " of "+ suit);
+        setMessage4("Dealer has drawn a " + value + " of " + suit);
         index2 = drawNum;
         printedImages2.add(cardImages.get(index2));
         cardImages.remove(index2);
-        
+
         repaint();
-                
+
     }
+
     public void hit(int drawNum, int psum, String value, String suit) {
-        
+
         setMessage("Your sum is " + psum);
         setMessage2("You have drawn a " + value + " of " + suit);
         index = drawNum;
@@ -138,6 +139,17 @@ public class GraphicsPanel extends JPanel {
         repaint();
     }
 
+public void Reset()
+{
+    printedImages.clear();
+    printedImages2.clear();
+    cardImages.clear();
+    setMessage("");
+    setMessage2("");
+    setMessage3("");
+    setMessage4("");
+    repaint();
+}
 }
 
 
