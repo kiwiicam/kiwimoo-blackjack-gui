@@ -10,20 +10,27 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 public class GUI extends JPanel implements ActionListener {
 
     public static final Color VERY_LIGHT_BLUE = new Color(51, 204, 255);
+    //objects
     private GraphicsPanel graphicsPanel;
     private GameLogic gameLogic;
     private Deck deck;
     public Card card;
     private Sum sum;
     public int Dsum;
+
+    //gui buttons/ frames/ images
     JButton b;
     JButton s;
     JButton play;
@@ -36,9 +43,27 @@ public class GUI extends JPanel implements ActionListener {
     int height;
     JPanel mainPanel;
     JPanel instructions;
+    JLabel chip10;
+    ImageIcon img10;
+
     boolean n;
 
+    //betting vars
+    int tableamt;
+    int bet;
+    int lose;
+    int win;
+    int gamesplayed;
+    String str;
+
     public GUI() {
+        str = "";
+        tableamt = 0;
+        bet = 0;
+        lose = 0;
+        win = 0;
+        gamesplayed = 0;
+
         gameLogic = new GameLogic();
         n = false;
         this.Dsum = 0;
@@ -57,6 +82,9 @@ public class GUI extends JPanel implements ActionListener {
                 super.paintComponent(g);
                 Image bg2 = new ImageIcon("./resources/bg2.jpg").getImage();
                 g.drawImage(bg2, 0, 0, getWidth(), getHeight(), this);
+                g.setColor(VERY_LIGHT_BLUE);
+                g.setFont(new Font("Arial", Font.PLAIN, 20));
+                g.drawString(str, 1000, 300);
                 if (n) {
                     g.setColor(DARK_GREEN);
                     g.fillRect(50, 50, 1180, 540);
@@ -207,7 +235,31 @@ public class GUI extends JPanel implements ActionListener {
     //this will also have a combo box or another form of input
     //that will ask how many decks to be used in this game.
     public void bet() {
+        System.out.println("TESTING!@!!!@!#!@#");
+        img10 = new ImageIcon("./resources/chip10.png");
+        play.setVisible(false);
+        quit.setVisible(false);
+        back.setVisible(true);
+        instruct.setVisible(false);
+        chip10 = new JLabel(img10);
+        chip10.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                bet += 10;
+                System.out.println(bet);
+                setMessage("Bet is: " + bet);
 
+            }
+        });
+
+        mainPanel.add(chip10);
+        chip10.setBounds(100, 100, img10.getIconWidth(), img10.getIconHeight());
+
+    }
+
+    public void setMessage(String str) {
+        this.str = str;
+        mainPanel.repaint();
     }
 
     public void instructions() {
@@ -262,13 +314,15 @@ public class GUI extends JPanel implements ActionListener {
             Stand();
 
         } else if (e.getSource() == play) {
-            game();
+            bet();
+            //game();
         } else if (e.getSource() == quit) {
             System.exit(0);
         } else if (e.getSource() == instruct) {
             instructions();
         } else if (e.getSource() == back) {
             n = false;
+            chip10.setVisible(false);
             mainPanel.repaint();
             back.setVisible(false);
             instruct.setVisible(true);
