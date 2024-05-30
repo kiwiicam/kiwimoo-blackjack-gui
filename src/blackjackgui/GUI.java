@@ -196,7 +196,7 @@ public class GUI extends JPanel implements ActionListener {
     }
 
     public void game() {
-        graphicsPanel.setBounds(250, 60, 800, 500);
+        graphicsPanel.setBounds(mainPanel.getWidth()/2-400, 60, 800, 500);
         mainPanel.add(graphicsPanel);
         graphicsPanel.rectvisi = true;
         play.setVisible(false);
