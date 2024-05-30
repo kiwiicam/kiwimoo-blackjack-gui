@@ -31,6 +31,7 @@ public class GUI extends JPanel implements ActionListener {
     public int Dsum;
 
     //gui buttons/ frames/ images
+    JButton play2;
     JButton b;
     JButton s;
     JButton play;
@@ -43,10 +44,15 @@ public class GUI extends JPanel implements ActionListener {
     int height;
     JPanel mainPanel;
     JPanel instructions;
-    JLabel chip10;
-    ImageIcon img10;
+    JLabel chip20;
+    JLabel chip50;
+    JLabel chip100;
+    ImageIcon img20;
+    ImageIcon img50;
+    ImageIcon img100;
 
     boolean n;
+    boolean c;
 
     //betting vars
     int tableamt;
@@ -65,6 +71,7 @@ public class GUI extends JPanel implements ActionListener {
         gamesplayed = 0;
 
         gameLogic = new GameLogic();
+        c = false;
         n = false;
         this.Dsum = 0;
         sum = new Sum();
@@ -84,7 +91,7 @@ public class GUI extends JPanel implements ActionListener {
                 g.drawImage(bg2, 0, 0, getWidth(), getHeight(), this);
                 g.setColor(VERY_LIGHT_BLUE);
                 g.setFont(new Font("Arial", Font.PLAIN, 20));
-                g.drawString(str, 1000, 300);
+
                 if (n) {
                     g.setColor(DARK_GREEN);
                     g.fillRect(50, 50, 1180, 540);
@@ -123,6 +130,12 @@ public class GUI extends JPanel implements ActionListener {
                     g.drawString("on different chip amounts in the betting menu.", 650, 560);
 
                 }
+                if (c) {
+                    g.setColor(VERY_LIGHT_BLUE);
+                    g.setFont(new Font("Arial", Font.PLAIN, 20));
+                    g.drawString(str, mainPanel.getWidth() / 2 - 80, mainPanel.getHeight() - 380);
+
+                }
             }
         };
         mainPanel.setLayout(null);
@@ -146,6 +159,12 @@ public class GUI extends JPanel implements ActionListener {
         b.setVisible(false);
         mainPanel.add(b);
 
+        play2 = new JButton("Play!");
+        play2.addActionListener(this);
+        play2.setBackground(VERY_LIGHT_BLUE);
+        play2.setVisible(false);
+        mainPanel.add(play2);
+
         s = new JButton("Stand");
         s.setBounds(570, 580, 100, 50);
         s.setBackground(VERY_LIGHT_BLUE);
@@ -160,7 +179,6 @@ public class GUI extends JPanel implements ActionListener {
         mainPanel.add(instruct);
 
         back = new JButton("Back");
-        back.setBounds(600, 600, 100, 50);
         back.setBackground(VERY_LIGHT_BLUE);
         back.setVisible(false);
         back.addActionListener(this);
@@ -183,6 +201,7 @@ public class GUI extends JPanel implements ActionListener {
         graphicsPanel.rectvisi = true;
         play.setVisible(false);
         instruct.setVisible(false);
+        quit.setVisible(true);
         quit.setBounds(690, 580, 100, 50);
         b.setVisible(true);
         s.setVisible(true);
@@ -194,39 +213,15 @@ public class GUI extends JPanel implements ActionListener {
     public void gameStart() {
         int index = deck.DrawCard(deck.cards, true);
         graphicsPanel.hit(index, deck.p_sum, deck.getValue(), deck.getSuit());
-        for (int i = 0; i < deck.getCards().size(); i++) {
 
-            System.out.println(i + " " + deck.getCards().get(i));
-        }
-
-        for (int i = 0; i < card.getImageCards().size(); i++) {
-
-            System.out.println(i + " " + card.getImageCards().get(i));
-        }
         card.getImageCards().remove(index);
         int index2 = deck.DrawCard(deck.cards, true);
         graphicsPanel.hit(index2, deck.p_sum, deck.getValue(), deck.getSuit());
-        for (int i = 0; i < deck.getCards().size(); i++) {
 
-            System.out.println(i + " " + deck.getCards().get(i));
-        }
-
-        for (int i = 0; i < card.getImageCards().size(); i++) {
-
-            System.out.println(i + " " + card.getImageCards().get(i));
-        }
         card.getImageCards().remove(index2);
         int index3 = deck.DrawCard(deck.cards, false);
         graphicsPanel.dHit(index3, deck.d_sum, deck.getValue(), deck.getSuit());
-        for (int i = 0; i < deck.getCards().size(); i++) {
 
-            System.out.println(i + " " + deck.getCards().get(i));
-        }
-
-        for (int i = 0; i < card.getImageCards().size(); i++) {
-
-            System.out.println(i + " " + card.getImageCards().get(i));
-        }
         card.getImageCards().remove(index3);
 
     }
@@ -235,25 +230,57 @@ public class GUI extends JPanel implements ActionListener {
     //this will also have a combo box or another form of input
     //that will ask how many decks to be used in this game.
     public void bet() {
+        c = true;
+        setMessage("Bet is: ");
         System.out.println("TESTING!@!!!@!#!@#");
-        img10 = new ImageIcon("./resources/chip10.png");
+        img20 = new ImageIcon("./resources/PokerChips20.png");
+        img50 = new ImageIcon("./resources/PokerChips50.png");
+        img100 = new ImageIcon("./resources/PokerChips100.png");
         play.setVisible(false);
         quit.setVisible(false);
+        back.setBounds(mainPanel.getWidth() / 2 - 100, mainPanel.getHeight() - 100, 100, 50);
+        play2.setBounds(mainPanel.getWidth() / 2 - 100, mainPanel.getHeight() - 200, 100, 50);
+        play2.setVisible(true);
         back.setVisible(true);
         instruct.setVisible(false);
-        chip10 = new JLabel(img10);
-        chip10.addMouseListener(new MouseAdapter() {
+        chip20 = new JLabel(img20);
+        chip50 = new JLabel(img50);
+        chip100 = new JLabel(img100);
+
+        chip50.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                bet += 10;
+                bet += 50;
                 System.out.println(bet);
                 setMessage("Bet is: " + bet);
 
             }
         });
+        chip100.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                bet += 100;
+                System.out.println(bet);
+                setMessage("Bet is: " + bet);
 
-        mainPanel.add(chip10);
-        chip10.setBounds(100, 100, img10.getIconWidth(), img10.getIconHeight());
+            }
+        });
+        chip20.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                bet += 20;
+                System.out.println(bet);
+                setMessage("Bet is: " + bet);
+
+            }
+        });
+        mainPanel.add(chip50);
+        mainPanel.add(chip100);
+        mainPanel.add(chip20);
+        System.out.println(mainPanel.getWidth());
+        chip20.setBounds(mainPanel.getWidth() * 1 / 3 - img20.getIconWidth(), 100, img20.getIconWidth(), img20.getIconHeight());
+        chip50.setBounds(mainPanel.getWidth() * 1 / 3, 100, img50.getIconWidth(), img50.getIconHeight());
+        chip100.setBounds(mainPanel.getWidth() - img100.getIconWidth(), 100, img100.getIconWidth(), img100.getIconHeight());
 
     }
 
@@ -265,36 +292,17 @@ public class GUI extends JPanel implements ActionListener {
     public void instructions() {
         play.setVisible(false);
         quit.setVisible(false);
+        back.setBounds(mainPanel.getWidth() / 2 - 100, mainPanel.getHeight() - 300, 100, 50);
         back.setVisible(true);
         instruct.setVisible(false);
         n = true;
         mainPanel.repaint();
-//        instructions = new JPanel() {
-//            @Override
-//            protected void paintComponent(Graphics g) {
-//                super.paintComponent(g);
-//                g.drawRect(200, 200, 600, 600);
-//                g.drawString("chicken meatballs", 200, 210);
-//            }
-//        };
-//        instructions.setLayout(null);
-//        instructions.setBounds(50, 50, 1000, 600);
-//        mainPanel.add(instructions);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == b) {
 
-            for (int i = 0; i < deck.getCards().size(); i++) {
-
-                System.out.println(i + " " + deck.getCards().get(i));
-            }
-
-            for (int i = 0; i < card.getImageCards().size(); i++) {
-
-                System.out.println(i + " " + card.getImageCards().get(i));
-            }
             int index = deck.DrawCard(deck.cards, true);
             graphicsPanel.hit(index, deck.p_sum, deck.getValue(), deck.getSuit());
 
@@ -313,6 +321,21 @@ public class GUI extends JPanel implements ActionListener {
             graphicsPanel.stand();
             Stand();
 
+        } else if (e.getSource() == play2) {
+            if (bet != 0) {
+                game();
+                c = false;
+                setMessage("");
+                play2.setVisible(false);
+                chip20.setVisible(false);
+                chip50.setVisible(false);
+                chip100.setVisible(false);
+                back.setVisible(false);
+            }
+            else
+            {
+                setMessage("Enter a valid betting amount");                
+            }
         } else if (e.getSource() == play) {
             bet();
             //game();
@@ -321,8 +344,12 @@ public class GUI extends JPanel implements ActionListener {
         } else if (e.getSource() == instruct) {
             instructions();
         } else if (e.getSource() == back) {
+            c = false;
             n = false;
-            chip10.setVisible(false);
+            chip20.setVisible(false);
+            chip50.setVisible(false);
+            chip100.setVisible(false);
+            setMessage("");
             mainPanel.repaint();
             back.setVisible(false);
             instruct.setVisible(true);
