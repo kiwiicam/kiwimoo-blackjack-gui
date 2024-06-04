@@ -133,7 +133,7 @@ public class GUI extends JPanel implements ActionListener {
                 if (c) {
                     g.setColor(VERY_LIGHT_BLUE);
                     g.setFont(new Font("Arial", Font.PLAIN, 20));
-                    g.drawString(str, mainPanel.getWidth() / 2 - 80, mainPanel.getHeight() - 380);
+                    g.drawString(str, mainPanel.getWidth() / 2 - 80, mainPanel.getHeight() - 20);
 
                 }
             }
@@ -239,7 +239,7 @@ public class GUI extends JPanel implements ActionListener {
         play.setVisible(false);
         quit.setVisible(false);
         back.setBounds(mainPanel.getWidth() / 2 - 100, mainPanel.getHeight() - 100, 100, 50);
-        play2.setBounds(mainPanel.getWidth() / 2 - 100, mainPanel.getHeight() - 200, 100, 50);
+        play2.setBounds(mainPanel.getWidth() / 2 + 100, mainPanel.getHeight() - 100, 100, 50);
         play2.setVisible(true);
         back.setVisible(true);
         instruct.setVisible(false);
@@ -278,9 +278,9 @@ public class GUI extends JPanel implements ActionListener {
         mainPanel.add(chip100);
         mainPanel.add(chip20);
         System.out.println(mainPanel.getWidth());
-        chip20.setBounds(mainPanel.getWidth() * 1 / 3 - img20.getIconWidth(), 100, img20.getIconWidth(), img20.getIconHeight());
-        chip50.setBounds(mainPanel.getWidth() * 1 / 3, 100, img50.getIconWidth(), img50.getIconHeight());
-        chip100.setBounds(mainPanel.getWidth() - img100.getIconWidth(), 100, img100.getIconWidth(), img100.getIconHeight());
+        chip20.setBounds(0, 100, img20.getIconWidth()-200,  img20.getIconHeight());
+        chip50.setBounds(425,100, img50.getIconWidth()-200, img50.getIconHeight());
+        chip100.setBounds(850, 100, img100.getIconWidth()-200, img100.getIconHeight());
 
     }
 
@@ -344,6 +344,8 @@ public class GUI extends JPanel implements ActionListener {
         } else if (e.getSource() == instruct) {
             instructions();
         } else if (e.getSource() == back) {
+            bet = 0;
+            play2.setVisible(false);
             c = false;
             n = false;
             chip20.setVisible(false);
@@ -409,6 +411,7 @@ public class GUI extends JPanel implements ActionListener {
     }
 
     public void resetGame() {
+        bet = 0;
         mainPanel.remove(graphicsPanel);
         graphicsPanel.Reset();
         deck = new Deck(1);
