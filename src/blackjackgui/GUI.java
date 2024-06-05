@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 public class GUI extends JPanel implements ActionListener {
@@ -31,6 +32,7 @@ public class GUI extends JPanel implements ActionListener {
     public int Dsum;
 
     //gui buttons/ frames/ images
+    JTextField User;
     JButton play2;
     JButton b;
     JButton s;
@@ -39,6 +41,7 @@ public class GUI extends JPanel implements ActionListener {
     JButton instruct;
     JButton back;
     JButton playg;
+    JButton enter;
     JFrame j;
     int width;
     int height;
@@ -61,8 +64,10 @@ public class GUI extends JPanel implements ActionListener {
     int win;
     int gamesplayed;
     String str;
+    String username;
 
     public GUI() {
+        username = "";
         str = "";
         tableamt = 0;
         bet = 0;
@@ -133,7 +138,7 @@ public class GUI extends JPanel implements ActionListener {
                 if (c) {
                     g.setColor(VERY_LIGHT_BLUE);
                     g.setFont(new Font("Arial", Font.PLAIN, 20));
-                    g.drawString(str, mainPanel.getWidth() / 2 - 80, mainPanel.getHeight() - 20);
+                    g.drawString(str, mainPanel.getWidth() / 2 - 80, 50);
 
                 }
             }
@@ -196,7 +201,7 @@ public class GUI extends JPanel implements ActionListener {
     }
 
     public void game() {
-        graphicsPanel.setBounds(mainPanel.getWidth()/2-400, 60, 800, 500);
+        graphicsPanel.setBounds(mainPanel.getWidth() / 2 - 400, 60, 800, 500);
         mainPanel.add(graphicsPanel);
         graphicsPanel.rectvisi = true;
         play.setVisible(false);
@@ -230,14 +235,15 @@ public class GUI extends JPanel implements ActionListener {
     //this will also have a combo box or another form of input
     //that will ask how many decks to be used in this game.
     public void bet() {
+        back.setVisible(true);
+        User.setVisible(false);
+        enter.setVisible(false);
         c = true;
         setMessage("Bet is: ");
         System.out.println("TESTING!@!!!@!#!@#");
         img20 = new ImageIcon("./resources/PokerChips20.png");
         img50 = new ImageIcon("./resources/PokerChips50.png");
         img100 = new ImageIcon("./resources/PokerChips100.png");
-        play.setVisible(false);
-        quit.setVisible(false);
         back.setBounds(mainPanel.getWidth() / 2 - 100, mainPanel.getHeight() - 100, 100, 50);
         play2.setBounds(mainPanel.getWidth() / 2 + 100, mainPanel.getHeight() - 100, 100, 50);
         play2.setVisible(true);
@@ -278,9 +284,9 @@ public class GUI extends JPanel implements ActionListener {
         mainPanel.add(chip100);
         mainPanel.add(chip20);
         System.out.println(mainPanel.getWidth());
-        chip20.setBounds(0, 100, img20.getIconWidth()-200,  img20.getIconHeight());
-        chip50.setBounds(425,100, img50.getIconWidth()-200, img50.getIconHeight());
-        chip100.setBounds(850, 100, img100.getIconWidth()-200, img100.getIconHeight());
+        chip20.setBounds(0, 100, img20.getIconWidth() - 200, img20.getIconHeight());
+        chip50.setBounds(425, 100, img50.getIconWidth() - 200, img50.getIconHeight());
+        chip100.setBounds(850, 100, img100.getIconWidth() - 200, img100.getIconHeight());
 
     }
 
@@ -297,6 +303,28 @@ public class GUI extends JPanel implements ActionListener {
         instruct.setVisible(false);
         n = true;
         mainPanel.repaint();
+    }
+
+    public void UserName() {
+        play.setVisible(false);
+        quit.setVisible(false);
+        instruct.setVisible(false);
+        back.setVisible(false);
+        User = new JTextField(20);
+        enter = new JButton("Enter");
+        mainPanel.add(enter);
+        mainPanel.add(User);
+        enter.setBounds(mainPanel.getWidth()/2-100,500, 200, 30);
+        User.setBounds(mainPanel.getWidth()/2-100, 400, 200, 30);
+        enter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                username = User.getText();
+                System.out.println("the username is: " + username);
+                bet();
+            }
+        });
+
     }
 
     @Override
@@ -331,19 +359,18 @@ public class GUI extends JPanel implements ActionListener {
                 chip50.setVisible(false);
                 chip100.setVisible(false);
                 back.setVisible(false);
-            }
-            else
-            {
-                setMessage("Enter a valid betting amount");                
+            } else {
+                setMessage("Enter a valid betting amount");
             }
         } else if (e.getSource() == play) {
-            bet();
+            UserName();
             //game();
         } else if (e.getSource() == quit) {
             System.exit(0);
         } else if (e.getSource() == instruct) {
             instructions();
         } else if (e.getSource() == back) {
+            username = "";
             bet = 0;
             play2.setVisible(false);
             c = false;
@@ -411,6 +438,7 @@ public class GUI extends JPanel implements ActionListener {
     }
 
     public void resetGame() {
+        
         bet = 0;
         mainPanel.remove(graphicsPanel);
         graphicsPanel.Reset();
