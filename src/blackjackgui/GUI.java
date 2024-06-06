@@ -24,6 +24,7 @@ public class GUI extends JPanel implements ActionListener {
 
     public static final Color VERY_LIGHT_BLUE = new Color(51, 204, 255);
     //objects
+    private CreateDatabase createDB;
     private GraphicsPanel graphicsPanel;
     private GameLogic gameLogic;
     private Deck deck;
@@ -32,6 +33,7 @@ public class GUI extends JPanel implements ActionListener {
     public int Dsum;
 
     //gui buttons/ frames/ images
+    JButton resetbet;
     JTextField User;
     JButton play2;
     JButton b;
@@ -67,6 +69,8 @@ public class GUI extends JPanel implements ActionListener {
     String username;
 
     public GUI() {
+        createDB = new CreateDatabase();
+        createDB.createTable();
         username = "";
         str = "";
         tableamt = 0;
@@ -141,10 +145,18 @@ public class GUI extends JPanel implements ActionListener {
                     g.drawString(str, mainPanel.getWidth() / 2 - 80, 50);
 
                 }
+
             }
         };
         mainPanel.setLayout(null);
-
+        
+        resetbet = new JButton("Reset bet to 0!");
+        resetbet.setVisible(false);
+        resetbet.setBackground(VERY_LIGHT_BLUE);
+        resetbet.addActionListener(this);
+        mainPanel.add(resetbet);
+        
+        
         play = new JButton("Play");
         play.setBounds(535, 300, 100, 50);
         play.addActionListener(this);
@@ -201,8 +213,11 @@ public class GUI extends JPanel implements ActionListener {
     }
 
     public void game() {
+        createDB.retrieveData(username);
+
         graphicsPanel.setBounds(mainPanel.getWidth() / 2 - 400, 60, 800, 500);
         mainPanel.add(graphicsPanel);
+        graphicsPanel.displayStats(username, createDB.plays, bet, createDB.moneyBet, createDB.moneyWon, createDB.moneyLost, createDB.gamesWon, createDB.gamesLost);
         graphicsPanel.rectvisi = true;
         play.setVisible(false);
         instruct.setVisible(false);
@@ -235,6 +250,8 @@ public class GUI extends JPanel implements ActionListener {
     //this will also have a combo box or another form of input
     //that will ask how many decks to be used in this game.
     public void bet() {
+        
+        resetbet.setVisible(true);
         back.setVisible(true);
         User.setVisible(false);
         enter.setVisible(false);
@@ -244,8 +261,9 @@ public class GUI extends JPanel implements ActionListener {
         img20 = new ImageIcon("./resources/PokerChips20.png");
         img50 = new ImageIcon("./resources/PokerChips50.png");
         img100 = new ImageIcon("./resources/PokerChips100.png");
-        back.setBounds(mainPanel.getWidth() / 2 - 100, mainPanel.getHeight() - 100, 100, 50);
-        play2.setBounds(mainPanel.getWidth() / 2 + 100, mainPanel.getHeight() - 100, 100, 50);
+        resetbet.setBounds((mainPanel.getWidth() / 2)-10, mainPanel.getHeight() - 100, 120, 50);
+        back.setBounds(mainPanel.getWidth() / 2 - 200, mainPanel.getHeight() - 100, 100, 50);
+        play2.setBounds(mainPanel.getWidth() / 2 + 200, mainPanel.getHeight() - 100, 100, 50);
         play2.setVisible(true);
         back.setVisible(true);
         instruct.setVisible(false);
@@ -280,6 +298,8 @@ public class GUI extends JPanel implements ActionListener {
 
             }
         });
+        createDB.retrieveData(username);
+        createDB.retrieveData(username);
         mainPanel.add(chip50);
         mainPanel.add(chip100);
         mainPanel.add(chip20);
@@ -311,16 +331,17 @@ public class GUI extends JPanel implements ActionListener {
         instruct.setVisible(false);
         back.setVisible(false);
         User = new JTextField(20);
-        enter = new JButton("Enter");
+        enter = new JButton("Enter username!");
         mainPanel.add(enter);
         mainPanel.add(User);
-        enter.setBounds(mainPanel.getWidth()/2-100,500, 200, 30);
-        User.setBounds(mainPanel.getWidth()/2-100, 400, 200, 30);
+        enter.setBounds(mainPanel.getWidth() / 2 - 100, 500, 200, 30);
+        User.setBounds(mainPanel.getWidth() / 2 - 100, 450, 200, 30);
         enter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 username = User.getText();
                 System.out.println("the username is: " + username);
+                displayStats();
                 bet();
             }
         });
@@ -350,7 +371,9 @@ public class GUI extends JPanel implements ActionListener {
             Stand();
 
         } else if (e.getSource() == play2) {
-            if (bet != 0) {
+            if (bet != 0 && bet <= 500) {
+                resetbet.setVisible(false);
+                createDB.UpdateData(username, createDB.plays, bet, createDB.moneyBet, createDB.moneyWon, createDB.moneyLost, createDB.gamesWon, createDB.gamesLost);
                 game();
                 c = false;
                 setMessage("");
@@ -360,7 +383,7 @@ public class GUI extends JPanel implements ActionListener {
                 chip100.setVisible(false);
                 back.setVisible(false);
             } else {
-                setMessage("Enter a valid betting amount");
+                setMessage("Enter a valid betting amount, more than zero and less than 500!");
             }
         } else if (e.getSource() == play) {
             UserName();
@@ -370,6 +393,8 @@ public class GUI extends JPanel implements ActionListener {
         } else if (e.getSource() == instruct) {
             instructions();
         } else if (e.getSource() == back) {
+            resetbet.setVisible(false);
+            quit.setBounds(645, 300, 100, 50);
             username = "";
             bet = 0;
             play2.setVisible(false);
@@ -385,10 +410,26 @@ public class GUI extends JPanel implements ActionListener {
             play.setVisible(true);
             quit.setVisible(true);
         } else if (e.getSource() == playg) {
+            quit.setVisible(false);
             resetGame();
-            game();
+            bet();
 
         }
+        else if(e.getSource() == resetbet)
+        {
+            bet = 0;
+            setMessage("Bet is: " + bet);
+            graphicsPanel.repaint();
+        }
+    }
+
+    public void displayStats() {
+        if (createDB.primaryKeyExists(username)) {
+
+        } else {
+            createDB.insertData(username);
+        }
+
     }
 
     public Deck getDeck() {
@@ -405,10 +446,13 @@ public class GUI extends JPanel implements ActionListener {
             graphicsPanel.setMessage4("ITS A TIE!!!!");
         } else if (deck.d_sum > 21) {
             graphicsPanel.setMessage2("DEALER BUSTED, YOU WIN!");
+            winningStatsUpdate();
         } else if (deck.p_sum > deck.d_sum && deck.p_sum <= 21) {
             graphicsPanel.setMessage2("YOU HAVE WON!");
+            winningStatsUpdate();
         } else {
             graphicsPanel.setMessage2("YOU HAVE LOST!!!!");
+            losingStatsUpdate();
         }
         b.setVisible(false);
         s.setVisible(false);
@@ -419,6 +463,7 @@ public class GUI extends JPanel implements ActionListener {
     public void PlayerWin(boolean win) {
         if (win != true) {
             graphicsPanel.setMessage2("YOU LOOOOSE LLLLL!!!!!!!!");
+            losingStatsUpdate();
             b.setVisible(false);
             s.setVisible(false);
             quit.setBounds(580, 580, 100, 50);
@@ -429,6 +474,7 @@ public class GUI extends JPanel implements ActionListener {
     public void DealerWin(boolean win) {
         if (win != true) {
             graphicsPanel.setMessage4("DEALER LOOOOSE LLLLL!!!!!!!!");
+            winningStatsUpdate();
             b.setVisible(false);
             s.setVisible(false);
             quit.setBounds(580, 580, 100, 50);
@@ -438,8 +484,9 @@ public class GUI extends JPanel implements ActionListener {
     }
 
     public void resetGame() {
-        
+
         bet = 0;
+
         mainPanel.remove(graphicsPanel);
         graphicsPanel.Reset();
         deck = new Deck(1);
@@ -450,15 +497,9 @@ public class GUI extends JPanel implements ActionListener {
 
         play.setVisible(false);
         instruct.setVisible(false);
-        quit.setBounds(690, 580, 100, 50);
-        b.setVisible(true);
-        s.setVisible(true);
         back.setVisible(false);
         playg.setVisible(false);
-        graphicsPanel.setBounds(250, 60, 800, 500);
-        mainPanel.add(graphicsPanel);
-        mainPanel.revalidate();
-        mainPanel.repaint();
+
     }
 
     public void Stand() {
@@ -488,6 +529,21 @@ public class GUI extends JPanel implements ActionListener {
             Logic();
         }).start();
         graphicsPanel.setMessage4("Dealer has stood!!!");
+
+    }
+
+    public void winningStatsUpdate() {
+        createDB.UpdateData(username, createDB.plays + 1, 0, createDB.moneyBet + bet, createDB.moneyWon + bet, createDB.moneyLost, createDB.gamesWon + 1, createDB.gamesLost);
+        graphicsPanel.repaint();
+    }
+
+    public void losingStatsUpdate() {
+        createDB.UpdateData(username, createDB.plays + 1, 0, createDB.moneyBet + bet, createDB.moneyWon, createDB.moneyLost + bet, createDB.gamesWon, createDB.gamesLost + 1);
+        graphicsPanel.repaint();
+    }
+
+    public void tieStatsUpdate() {
+        createDB.UpdateData(username, createDB.plays + 1, 0, createDB.moneyBet + bet, createDB.moneyWon, createDB.moneyLost, createDB.gamesWon, createDB.gamesLost);
 
     }
 

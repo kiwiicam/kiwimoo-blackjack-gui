@@ -31,8 +31,28 @@ public class GraphicsPanel extends JPanel {
     public ArrayList<Image> cardImages;
     public ArrayList<Image> printedImages;
     public ArrayList<Image> printedImages2;
+    boolean stats;
+    String username;
+    int plays;
+    int money;
+    int moneyBet;
+    int moneyWon;
+    int moneyLost;
+    int gamesWon;
+    int gamesLost;
+    
 
     public GraphicsPanel(ArrayList<String> cards) {
+        stats = false;
+        username = "";
+        plays = 0;
+        money = 0;
+        moneyBet = 0;
+        moneyWon = 0;
+        moneyLost = 0;
+        gamesWon = 0;
+        gamesLost = 0;
+        stats = false;
         this.rectvisi = false;
         printedImages2 = new ArrayList<>();
         printedImages = new ArrayList<>();
@@ -66,7 +86,7 @@ public class GraphicsPanel extends JPanel {
             g.fillRect(width / 2 - 100, height / 2 + 180, 250, 50);
             g.fillRect(width / 2 - 100, height / 2 - 20, 250, 50);
             g.fillRect(50, 100, 230, 230);
-
+            
         }
 
         for (int i = 0; i < printedImages.size(); i++) {
@@ -85,6 +105,18 @@ public class GraphicsPanel extends JPanel {
 
         g.drawString(message3, width / 2 - 90, height / 2 - 5);
         g.drawString(message4, width / 2 - 90, height / 2 + 20);
+        if (stats) {
+            g.drawString("Username: " + username, 55, 115);
+            g.drawString("Plays: " + plays, 55, 140);
+            g.drawString("Money: " + money, 55, 165);
+            g.drawString("Money Bet: " + moneyBet, 55, 190);
+            g.drawString("Money Won: " + moneyWon, 55, 215);
+            g.drawString("Money Lost: " + moneyLost, 55, 240);
+            g.drawString("Games Won: " + gamesWon, 55, 265);
+            g.drawString("Games Lost: " + gamesLost, 55, 290);
+            
+
+        }
 
     }
 
@@ -139,19 +171,31 @@ public class GraphicsPanel extends JPanel {
         repaint();
     }
 
-public void Reset()
-{
-    printedImages.clear();
-    printedImages2.clear();
-    cardImages.clear();
-    setMessage("");
-    setMessage2("");
-    setMessage3("");
-    setMessage4("");
-    repaint();
-}
-}
+    public void Reset() {
+        printedImages.clear();
+        printedImages2.clear();
+        cardImages.clear();
+        setMessage("");
+        setMessage2("");
+        setMessage3("");
+        setMessage4("");
+        repaint();
+    }
 
+    public void displayStats(String u, int p, int bet, int mB, int mW, int mL, int gW, int gL) {
+        stats = true;
+        username = u;
+        plays = p;
+        money = bet;
+        moneyBet = mB;
+        moneyWon = mW;
+        moneyLost = mL;
+        gamesWon = gW;
+        gamesLost = gL;
+        repaint();
+        
+    }
+}
 
 //    public void actionPerformed(ActionEvent event)
 //    {
