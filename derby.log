@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Fri Jun 07 20:10:34 NZST 2024:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-018f-f1bf-ddc1-000027a7e870 
+Fri Jun 07 23:16:58 NZST 2024:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-018f-f26a-8397-000023c90fd0 
 on database directory C:\Users\Administrator\Documents\NetBeansProjects\BlackJack GUI\kiwimoo-blackjack-gui\GamblerStats with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@70dea4e 
 Loaded from file:/C:/Users/Administrator/Downloads/db-derby-10.14.2.0-lib/db-derby-10.14.2.0-lib/lib/derby.jar
 java.vendor=Oracle Corporation

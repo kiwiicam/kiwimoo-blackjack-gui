@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.concurrent.TimeUnit;
@@ -45,8 +47,8 @@ public class GUI extends JPanel implements ActionListener {
     JButton playg;
     JButton enter;
     JFrame j;
-    int width;
-    int height;
+//    int width;
+//    int height;
     JPanel mainPanel;
     JPanel instructions;
     JLabel chip20;
@@ -67,6 +69,8 @@ public class GUI extends JPanel implements ActionListener {
     int gamesplayed;
     String str;
     String username;
+    int Height;
+    int Width;
 
     public GUI() {
         createDB = new CreateDatabase();
@@ -142,73 +146,18 @@ public class GUI extends JPanel implements ActionListener {
                 if (c) {
                     g.setColor(VERY_LIGHT_BLUE);
                     g.setFont(new Font("Arial", Font.PLAIN, 20));
-                    g.drawString(str, mainPanel.getWidth() / 2 - 80, 50);
+                    g.drawString(str, mainPanel.getWidth() / 2-30, 50);
 
                 }
 
             }
         };
         mainPanel.setLayout(null);
-
-        resetbet = new JButton("Reset bet to 0!");
-        resetbet.setVisible(false);
-        resetbet.setBackground(VERY_LIGHT_BLUE);
-        resetbet.addActionListener(this);
-        mainPanel.add(resetbet);
-
-        play = new JButton("Play");
-        play.setBounds(535, 300, 100, 50);
-        play.addActionListener(this);
-        play.setBackground(VERY_LIGHT_BLUE);
-        mainPanel.add(play);
-
-        quit = new JButton("Quit");
-        quit.setBounds(645, 300, 100, 50);
-        quit.addActionListener(this);
-        quit.setBackground(VERY_LIGHT_BLUE);
-        mainPanel.add(quit);
-
-        b = new JButton("Hit");
-        b.setBounds(450, 580, 100, 50);
-        b.addActionListener(this);
-        b.setBackground(VERY_LIGHT_BLUE);
-        b.setVisible(false);
-        mainPanel.add(b);
-
-        play2 = new JButton("Play!");
-        play2.addActionListener(this);
-        play2.setBackground(VERY_LIGHT_BLUE);
-        play2.setVisible(false);
-        mainPanel.add(play2);
-
-        s = new JButton("Stand");
-        s.setBounds(570, 580, 100, 50);
-        s.setBackground(VERY_LIGHT_BLUE);
-        s.addActionListener(this);
-        s.setVisible(false);
-        mainPanel.add(s);
-
-        instruct = new JButton("Instructions");
-        instruct.setBounds(535, 370, 210, 50);
-        instruct.setBackground(VERY_LIGHT_BLUE);
-        instruct.addActionListener(this);
-        mainPanel.add(instruct);
-
-        back = new JButton("Back");
-        back.setBackground(VERY_LIGHT_BLUE);
-        back.setVisible(false);
-        back.addActionListener(this);
-        mainPanel.add(back);
-
-        playg = new JButton("Play Again");
-        playg.setBounds(200, 580, 100, 50);
-        playg.setBackground(VERY_LIGHT_BLUE);
-        playg.setVisible(false);
-        playg.addActionListener(this);
-        mainPanel.add(playg);
+        mainPanel.validate();
 
         j.add(mainPanel);
         j.setVisible(true);
+
     }
 
     public void game() {
@@ -303,9 +252,9 @@ public class GUI extends JPanel implements ActionListener {
         mainPanel.add(chip100);
         mainPanel.add(chip20);
         System.out.println(mainPanel.getWidth());
-        chip20.setBounds(0, 100, img20.getIconWidth() - 200, img20.getIconHeight());
-        chip50.setBounds(425, 100, img50.getIconWidth() - 200, img50.getIconHeight());
-        chip100.setBounds(850, 100, img100.getIconWidth() - 200, img100.getIconHeight());
+        chip20.setBounds(0, (mainPanel.getHeight()/2)-(img20.getIconHeight()/2), img20.getIconWidth() - 200, img20.getIconHeight());
+        chip50.setBounds((mainPanel.getWidth()/2)-((img50.getIconWidth() - 200)/2), (mainPanel.getHeight()/2)-(img50.getIconHeight()/2), img50.getIconWidth() - 200, img50.getIconHeight());
+        chip100.setBounds(mainPanel.getWidth()-(img100.getIconWidth() - 200), (mainPanel.getHeight()/2)-(img100.getIconHeight()/2), img100.getIconWidth() - 200, img100.getIconHeight());
 
     }
 
@@ -388,12 +337,14 @@ public class GUI extends JPanel implements ActionListener {
             UserName();
             //game();
         } else if (e.getSource() == quit) {
+            createDB.retrieveData(username);
+            createDB.UpdateData(username, createDB.plays, 0, createDB.moneyBet + bet, createDB.moneyWon, createDB.moneyLost, createDB.gamesWon, createDB.gamesLost);
             System.exit(0);
         } else if (e.getSource() == instruct) {
             instructions();
         } else if (e.getSource() == back) {
             resetbet.setVisible(false);
-            quit.setBounds(645, 300, 100, 50);
+            quit.setBounds(j.getWidth() / 2 + 10, j.getHeight() / 2, 100, 50);
             username = "";
             bet = 0;
             play2.setVisible(false);
@@ -542,6 +493,69 @@ public class GUI extends JPanel implements ActionListener {
     public void tieStatsUpdate() {
         createDB.UpdateData(username, createDB.plays + 1, 0, createDB.moneyBet + bet, createDB.moneyWon, createDB.moneyLost, createDB.gamesWon, createDB.gamesLost);
 
+    }
+
+    public void buttons() {
+        resetbet = new JButton("Reset bet to 0!");
+        resetbet.setVisible(false);
+        resetbet.setBackground(VERY_LIGHT_BLUE);
+        resetbet.addActionListener(this);
+        mainPanel.add(resetbet);
+
+        play = new JButton("Play");
+        play.addActionListener(this);
+        play.setBackground(VERY_LIGHT_BLUE);
+
+        quit = new JButton("Quit");
+        
+        quit.addActionListener(this);
+        quit.setBackground(VERY_LIGHT_BLUE);
+
+        b = new JButton("Hit");
+        b.setBounds(450, 580, 100, 50);
+        b.addActionListener(this);
+        b.setBackground(VERY_LIGHT_BLUE);
+        b.setVisible(false);
+        mainPanel.add(b);
+
+        play2 = new JButton("Play!");
+        play2.addActionListener(this);
+        play2.setBackground(VERY_LIGHT_BLUE);
+        play2.setVisible(false);
+        mainPanel.add(play2);
+
+        s = new JButton("Stand");
+        s.setBounds(570, 580, 100, 50);
+        s.setBackground(VERY_LIGHT_BLUE);
+        s.addActionListener(this);
+        s.setVisible(false);
+        mainPanel.add(s);
+
+        instruct = new JButton("Instructions");
+        instruct.setBackground(VERY_LIGHT_BLUE);
+        instruct.addActionListener(this);
+        
+
+        back = new JButton("Back");
+        back.setBackground(VERY_LIGHT_BLUE);
+        back.setVisible(false);
+        back.addActionListener(this);
+
+        playg = new JButton("Play Again");
+        playg.setBounds(200, 580, 100, 50);
+        playg.setBackground(VERY_LIGHT_BLUE);
+        playg.setVisible(false);
+        playg.addActionListener(this);
+
+        mainPanel.add(play);
+        mainPanel.add(quit);
+        mainPanel.add(back);
+        mainPanel.add(playg);
+        mainPanel.add(instruct);
+        
+        instruct.setBounds(j.getWidth() / 2 - 110, j.getHeight() / 2 + 70, 220, 50);
+        play.setBounds(j.getWidth() / 2 - 110, j.getHeight() / 2, 100, 50);
+        quit.setBounds(j.getWidth() / 2 + 10, j.getHeight() / 2, 100, 50);
     }
 
 //    public static void main(String[] args) {
