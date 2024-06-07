@@ -149,14 +149,13 @@ public class GUI extends JPanel implements ActionListener {
             }
         };
         mainPanel.setLayout(null);
-        
+
         resetbet = new JButton("Reset bet to 0!");
         resetbet.setVisible(false);
         resetbet.setBackground(VERY_LIGHT_BLUE);
         resetbet.addActionListener(this);
         mainPanel.add(resetbet);
-        
-        
+
         play = new JButton("Play");
         play.setBounds(535, 300, 100, 50);
         play.addActionListener(this);
@@ -250,7 +249,7 @@ public class GUI extends JPanel implements ActionListener {
     //this will also have a combo box or another form of input
     //that will ask how many decks to be used in this game.
     public void bet() {
-        
+
         resetbet.setVisible(true);
         back.setVisible(true);
         User.setVisible(false);
@@ -261,7 +260,7 @@ public class GUI extends JPanel implements ActionListener {
         img20 = new ImageIcon("./resources/PokerChips20.png");
         img50 = new ImageIcon("./resources/PokerChips50.png");
         img100 = new ImageIcon("./resources/PokerChips100.png");
-        resetbet.setBounds((mainPanel.getWidth() / 2)-10, mainPanel.getHeight() - 100, 120, 50);
+        resetbet.setBounds((mainPanel.getWidth() / 2) - 10, mainPanel.getHeight() - 100, 120, 50);
         back.setBounds(mainPanel.getWidth() / 2 - 200, mainPanel.getHeight() - 100, 100, 50);
         play2.setBounds(mainPanel.getWidth() / 2 + 200, mainPanel.getHeight() - 100, 100, 50);
         play2.setVisible(true);
@@ -414,9 +413,7 @@ public class GUI extends JPanel implements ActionListener {
             resetGame();
             bet();
 
-        }
-        else if(e.getSource() == resetbet)
-        {
+        } else if (e.getSource() == resetbet) {
             bet = 0;
             setMessage("Bet is: " + bet);
             graphicsPanel.repaint();
