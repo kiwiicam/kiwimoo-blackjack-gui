@@ -13,6 +13,7 @@ public class Deck {
     public ArrayList<String> cards;
     public int p_sum;
     public int d_sum;
+    //public static ArrayList<String> playerHand, dealerHand;
 
     public Deck() {
         this.d_sum = 0;
@@ -72,16 +73,11 @@ public class Deck {
             sum.Checks(value, true);
             p_sum = sum.getSum();
             cards.remove(randomNumber);
-            
-        }
-        else
-        {
+        } else {
             sum.Checks(value, false);
             d_sum = sum.getdSum();
             cards.remove(randomNumber);
         }
-        
-        
         return randomNumber;
     }
 
@@ -98,19 +94,18 @@ public class Deck {
         return cards.size();
     }
 
-    public static void main(String[] args) {
-
-//        Deck print = new Deck(2);
-//
-//        for (int i = 0; i < print.getCards().size(); i++) {
-//            System.out.println(i + " " + print.cards.get(i));
-//        }
-//        print.DrawCard(print.cards);
-//        System.out.println(print.DeckSize());
-    }
+    /*    public static void main(String[] args) {
     
-    public int getSum()
-    {
+    //        Deck print = new Deck(2);
+    //
+    //        for (int i = 0; i < print.getCards().size(); i++) {
+    //            System.out.println(i + " " + print.cards.get(i));
+    //        }
+    //        print.DrawCard(print.cards);
+    //        System.out.println(print.DeckSize());
+    }*/
+
+    public int getSum() {
         return p_sum;
     }
 

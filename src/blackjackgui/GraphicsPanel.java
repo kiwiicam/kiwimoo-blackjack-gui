@@ -21,7 +21,7 @@ public class GraphicsPanel extends JPanel {
     private String message3;
     private String message2;
     private Deck deck;
-    private String message;
+    String message;
     private int Psum;
     public Sum sum;
     public int space = 0;
@@ -40,7 +40,6 @@ public class GraphicsPanel extends JPanel {
     int moneyLost;
     int gamesWon;
     int gamesLost;
-    
 
     public GraphicsPanel(ArrayList<String> cards) {
         stats = false;
@@ -86,7 +85,7 @@ public class GraphicsPanel extends JPanel {
             g.fillRect(width / 2 - 100, height / 2 + 180, 250, 50);
             g.fillRect(width / 2 - 100, height / 2 - 20, 250, 50);
             g.fillRect(50, 100, 230, 230);
-            
+
         }
 
         for (int i = 0; i < printedImages.size(); i++) {
@@ -108,13 +107,12 @@ public class GraphicsPanel extends JPanel {
         if (stats) {
             g.drawString("Username: " + username, 55, 115);
             g.drawString("Plays: " + plays, 55, 140);
-            g.drawString("Money: " + money, 55, 165);
+            g.drawString("Current Bet: " + money, 55, 165);
             g.drawString("Money Bet: " + moneyBet, 55, 190);
             g.drawString("Money Won: " + moneyWon, 55, 215);
             g.drawString("Money Lost: " + moneyLost, 55, 240);
             g.drawString("Games Won: " + gamesWon, 55, 265);
             g.drawString("Games Lost: " + gamesLost, 55, 290);
-            
 
         }
 
@@ -171,6 +169,22 @@ public class GraphicsPanel extends JPanel {
         repaint();
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public String getMessage2() {
+        return message2;
+    }
+
+    public String getMessage3() {
+        return message3;
+    }
+
+    public String getMessage4() {
+        return message4;
+    }
+
     public void Reset() {
         printedImages.clear();
         printedImages2.clear();
@@ -193,7 +207,7 @@ public class GraphicsPanel extends JPanel {
         gamesWon = gW;
         gamesLost = gL;
         repaint();
-        
+
     }
 }
 

@@ -55,7 +55,6 @@ public class Stats {
                 System.out.println("User was not found");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 

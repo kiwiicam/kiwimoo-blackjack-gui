@@ -26,13 +26,13 @@ public class Card {
         return ImageCards;
     }
 
-    public static void main(String[] args) {
-//        Card c = new Card();
-//        for (int i = 0; i < c.cards.size(); i++) {
-//            System.out.println(c.cards.get(i));
-//        }
-//        for (int i = 0; i < c.ImageCards.size(); i++) {
-//            System.out.println(c.ImageCards.get(i));
-//        }
-    }
+//    public static void main(String[] args) {
+////        Card c = new Card();
+////        for (int i = 0; i < c.cards.size(); i++) {
+////            System.out.println(c.cards.get(i));
+////        }
+////        for (int i = 0; i < c.ImageCards.size(); i++) {
+////            System.out.println(c.ImageCards.get(i));
+////        }
+//    }
 }

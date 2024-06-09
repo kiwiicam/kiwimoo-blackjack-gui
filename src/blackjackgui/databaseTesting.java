@@ -13,32 +13,34 @@ import java.util.Scanner;
  */
 public class databaseTesting {
     
-
-    public static void main(String[] args) {
-        String input = "";
-        Scanner scan = new Scanner(System.in);
-        
-        System.out.println("Enter username");
-        input= scan.nextLine().trim();
-        
-        Stats.getStats(input);
-        printStats();
-        /*try (Connection conn = DatabaseConnection.getConnection(); 
-                Statement stmt = conn.createStatement()) {
-        
-        ResultSet rs = stmt.executeQuery("SELECT * FROM ABC.PLAYERS");
-        
-        while (rs.next()) {
-        String username = rs.getString("username");
-        int money = rs.getInt("money");
-        
-        System.out.println("user: " +username+" money:  "+money);
-        }
-        } catch (SQLException e) {
-        e.printStackTrace();
-        }*/
-        
-    }
+//this does not contain any testCase and was rather
+    //just testing to see that the database was created
+    
+//    public static void main(String[] args) {
+//        String input = "";
+//        Scanner scan = new Scanner(System.in);
+//        
+//        System.out.println("Enter username");
+//        input= scan.nextLine().trim();
+//        
+//        Stats.getStats(input);
+//        printStats();
+//        /*try (Connection conn = DatabaseConnection.getConnection(); 
+//                Statement stmt = conn.createStatement()) {
+//        
+//        ResultSet rs = stmt.executeQuery("SELECT * FROM ABC.PLAYERS");
+//        
+//        while (rs.next()) {
+//        String username = rs.getString("username");
+//        int money = rs.getInt("money");
+//        
+//        System.out.println("user: " +username+" money:  "+money);
+//        }
+//        } catch (SQLException e) {
+//        e.printStackTrace();
+//        }*/
+//        
+//    }
     
     public static void printStats(){
         System.out.println("User: " + Stats.username);

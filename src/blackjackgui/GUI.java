@@ -1,32 +1,16 @@
 package blackjackgui;
 
 import static blackjackgui.GraphicsPanel.DARK_GREEN;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.concurrent.TimeUnit;
-import java.util.ArrayList;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class GUI extends JPanel implements ActionListener {
 
     public static final Color VERY_LIGHT_BLUE = new Color(51, 204, 255);
     //objects
-    private CreateDatabase createDB;
+    CreateDatabase createDB;
     private GraphicsPanel graphicsPanel;
     private GameLogic gameLogic;
     private Deck deck;
@@ -37,15 +21,8 @@ public class GUI extends JPanel implements ActionListener {
     //gui buttons/ frames/ images
     JButton resetbet;
     JTextField User;
-    JButton play2;
-    JButton b;
-    JButton s;
-    JButton play;
-    JButton quit;
-    JButton instruct;
-    JButton back;
-    JButton playg;
-    JButton enter;
+    JButton b, s, play, play2, quit, instruct, back, playg, enter;
+
     JFrame j;
 //    int width;
 //    int height;
@@ -73,6 +50,12 @@ public class GUI extends JPanel implements ActionListener {
     int Width;
 
     public GUI() {
+        img20 = new ImageIcon("./resources/PokerChips20.png");
+        img50 = new ImageIcon("./resources/PokerChips50.png");
+        img100 = new ImageIcon("./resources/PokerChips100.png");
+        chip20 = new JLabel(img20);
+        chip50 = new JLabel(img50);
+        chip100 = new JLabel(img100);
         createDB = new CreateDatabase();
         createDB.createTable();
         username = "";
@@ -136,7 +119,7 @@ public class GUI extends JPanel implements ActionListener {
                     g.drawString("If the dealer busts, all remaining players win. If neither the player", 650, 310);
                     g.drawString("nor the dealer busts, the player with the highest hand value wins.", 650, 340);
                     g.drawString("6. Betting:", 650, 390);
-                    g.drawString("Users will be given 1000 chips to start,", 650, 440);
+                    g.drawString("Users will be given unlimited chips to start,", 650, 440);
                     g.drawString("the maximum amount allowed to be bet is 500,", 650, 470);
                     g.drawString("and the minimum is 50,", 650, 500);
                     g.drawString("the user can increase betting amount by clicking", 650, 530);
@@ -146,7 +129,7 @@ public class GUI extends JPanel implements ActionListener {
                 if (c) {
                     g.setColor(VERY_LIGHT_BLUE);
                     g.setFont(new Font("Arial", Font.PLAIN, 20));
-                    g.drawString(str, mainPanel.getWidth() / 2-30, 50);
+                    g.drawString(str, mainPanel.getWidth() / 2 - 30, 50);
 
                 }
 
@@ -170,7 +153,7 @@ public class GUI extends JPanel implements ActionListener {
         play.setVisible(false);
         instruct.setVisible(false);
         quit.setVisible(true);
-        quit.setBounds(690, 580, 100, 50);
+        quit.setBounds(mainPanel.getWidth() / 2 + 70, 580, 100, 50);
         b.setVisible(true);
         s.setVisible(true);
 //        exit.setVisible(true);
@@ -203,22 +186,32 @@ public class GUI extends JPanel implements ActionListener {
         back.setVisible(true);
         User.setVisible(false);
         enter.setVisible(false);
+        chip20.setVisible(true);
+        chip50.setVisible(true);
+        chip100.setVisible(true);
         c = true;
         setMessage("Bet is: ");
         System.out.println("TESTING!@!!!@!#!@#");
-        img20 = new ImageIcon("./resources/PokerChips20.png");
-        img50 = new ImageIcon("./resources/PokerChips50.png");
-        img100 = new ImageIcon("./resources/PokerChips100.png");
         resetbet.setBounds((mainPanel.getWidth() / 2) - 10, mainPanel.getHeight() - 100, 120, 50);
         back.setBounds(mainPanel.getWidth() / 2 - 200, mainPanel.getHeight() - 100, 100, 50);
         play2.setBounds(mainPanel.getWidth() / 2 + 200, mainPanel.getHeight() - 100, 100, 50);
         play2.setVisible(true);
         back.setVisible(true);
         instruct.setVisible(false);
-        chip20 = new JLabel(img20);
-        chip50 = new JLabel(img50);
-        chip100 = new JLabel(img100);
+        MouseListener[] mouseListeners20 = chip20.getMouseListeners();
+        for (MouseListener ml : mouseListeners20) {
+            chip20.removeMouseListener(ml);
+        }
 
+        MouseListener[] mouseListeners50 = chip50.getMouseListeners();
+        for (MouseListener ml : mouseListeners50) {
+            chip50.removeMouseListener(ml);
+        }
+
+        MouseListener[] mouseListeners100 = chip100.getMouseListeners();
+        for (MouseListener ml : mouseListeners100) {
+            chip100.removeMouseListener(ml);
+        }
         chip50.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -252,9 +245,9 @@ public class GUI extends JPanel implements ActionListener {
         mainPanel.add(chip100);
         mainPanel.add(chip20);
         System.out.println(mainPanel.getWidth());
-        chip20.setBounds(0, (mainPanel.getHeight()/2)-(img20.getIconHeight()/2), img20.getIconWidth() - 200, img20.getIconHeight());
-        chip50.setBounds((mainPanel.getWidth()/2)-((img50.getIconWidth() - 200)/2), (mainPanel.getHeight()/2)-(img50.getIconHeight()/2), img50.getIconWidth() - 200, img50.getIconHeight());
-        chip100.setBounds(mainPanel.getWidth()-(img100.getIconWidth() - 200), (mainPanel.getHeight()/2)-(img100.getIconHeight()/2), img100.getIconWidth() - 200, img100.getIconHeight());
+        chip20.setBounds(0, (mainPanel.getHeight() / 2) - (img20.getIconHeight() / 2), img20.getIconWidth() - 200, img20.getIconHeight());
+        chip50.setBounds((mainPanel.getWidth() / 2) - ((img50.getIconWidth() - 200) / 2), (mainPanel.getHeight() / 2) - (img50.getIconHeight() / 2), img50.getIconWidth() - 200, img50.getIconHeight());
+        chip100.setBounds(mainPanel.getWidth() - (img100.getIconWidth() - 200), (mainPanel.getHeight() / 2) - (img100.getIconHeight() / 2), img100.getIconWidth() - 200, img100.getIconHeight());
 
     }
 
@@ -404,7 +397,6 @@ public class GUI extends JPanel implements ActionListener {
         }
         b.setVisible(false);
         s.setVisible(false);
-        quit.setBounds(580, 580, 100, 50);
         playg.setVisible(true);
     }
 
@@ -414,7 +406,6 @@ public class GUI extends JPanel implements ActionListener {
             losingStatsUpdate();
             b.setVisible(false);
             s.setVisible(false);
-            quit.setBounds(580, 580, 100, 50);
             playg.setVisible(true);
         }
     }
@@ -425,7 +416,6 @@ public class GUI extends JPanel implements ActionListener {
             winningStatsUpdate();
             b.setVisible(false);
             s.setVisible(false);
-            quit.setBounds(580, 580, 100, 50);
             playg.setVisible(true);
         }
 
@@ -453,7 +443,6 @@ public class GUI extends JPanel implements ActionListener {
     public void Stand() {
         s.setVisible(false);
         b.setVisible(false);
-        quit.setBounds(580, 580, 100, 50);
 
         new Thread(() -> {
             while (deck.d_sum <= 16) {
@@ -507,12 +496,12 @@ public class GUI extends JPanel implements ActionListener {
         play.setBackground(VERY_LIGHT_BLUE);
 
         quit = new JButton("Quit");
-        
+
         quit.addActionListener(this);
         quit.setBackground(VERY_LIGHT_BLUE);
 
         b = new JButton("Hit");
-        b.setBounds(450, 580, 100, 50);
+        b.setBounds(j.getWidth() / 2 - 160, 580, 100, 50);
         b.addActionListener(this);
         b.setBackground(VERY_LIGHT_BLUE);
         b.setVisible(false);
@@ -525,7 +514,7 @@ public class GUI extends JPanel implements ActionListener {
         mainPanel.add(play2);
 
         s = new JButton("Stand");
-        s.setBounds(570, 580, 100, 50);
+        s.setBounds(j.getWidth() / 2 - 50, 580, 100, 50);
         s.setBackground(VERY_LIGHT_BLUE);
         s.addActionListener(this);
         s.setVisible(false);
@@ -534,7 +523,6 @@ public class GUI extends JPanel implements ActionListener {
         instruct = new JButton("Instructions");
         instruct.setBackground(VERY_LIGHT_BLUE);
         instruct.addActionListener(this);
-        
 
         back = new JButton("Back");
         back.setBackground(VERY_LIGHT_BLUE);
@@ -542,7 +530,7 @@ public class GUI extends JPanel implements ActionListener {
         back.addActionListener(this);
 
         playg = new JButton("Play Again");
-        playg.setBounds(200, 580, 100, 50);
+        playg.setBounds(j.getWidth() / 2 - 160, 580, 100, 50);
         playg.setBackground(VERY_LIGHT_BLUE);
         playg.setVisible(false);
         playg.addActionListener(this);
@@ -552,7 +540,7 @@ public class GUI extends JPanel implements ActionListener {
         mainPanel.add(back);
         mainPanel.add(playg);
         mainPanel.add(instruct);
-        
+
         instruct.setBounds(j.getWidth() / 2 - 110, j.getHeight() / 2 + 70, 220, 50);
         play.setBounds(j.getWidth() / 2 - 110, j.getHeight() / 2, 100, 50);
         quit.setBounds(j.getWidth() / 2 + 10, j.getHeight() / 2, 100, 50);

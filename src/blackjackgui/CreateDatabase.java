@@ -33,9 +33,7 @@ public class CreateDatabase {
 
     }
 
-    public static void main(String[] args) {
-
-    }
+   
 
     public void createTable() {
         File dbDirectory = new File(DATABASE_PATH);
@@ -109,7 +107,8 @@ public class CreateDatabase {
 
     public void retrieveData(String usern) {
         String sql = "SELECT * FROM GamblerStats WHERE username = ?";
-        try (Connection conn = DriverManager.getConnection(URL, DATABASE_USERNAME, PASSWORD); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DriverManager.getConnection(URL, DATABASE_USERNAME, PASSWORD); 
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, usern);
             ResultSet rs = stmt.executeQuery();
 
