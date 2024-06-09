@@ -13,7 +13,9 @@ import java.util.Scanner;
  */
 public class databaseTesting {
     
-
+//this does not contain any testCase and was rather
+    //just testing to see that the database was created
+    
     public static void main(String[] args) {
         String input = "";
         Scanner scan = new Scanner(System.in);

@@ -1,32 +1,16 @@
 package blackjackgui;
 
 import static blackjackgui.GraphicsPanel.DARK_GREEN;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.concurrent.TimeUnit;
-import java.util.ArrayList;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class GUI extends JPanel implements ActionListener {
 
     public static final Color VERY_LIGHT_BLUE = new Color(51, 204, 255);
     //objects
-    private CreateDatabase createDB;
+    CreateDatabase createDB;
     private GraphicsPanel graphicsPanel;
     private GameLogic gameLogic;
     private Deck deck;
@@ -37,15 +21,8 @@ public class GUI extends JPanel implements ActionListener {
     //gui buttons/ frames/ images
     JButton resetbet;
     JTextField User;
-    JButton play2;
-    JButton b;
-    JButton s;
-    JButton play;
-    JButton quit;
-    JButton instruct;
-    JButton back;
-    JButton playg;
-    JButton enter;
+    JButton b,s, play, play2, quit, instruct, back, playg, enter;
+    
     JFrame j;
 //    int width;
 //    int height;
@@ -428,7 +405,7 @@ public class GUI extends JPanel implements ActionListener {
             quit.setBounds(580, 580, 100, 50);
             playg.setVisible(true);
         }
-
+        
     }
 
     public void resetGame() {

@@ -19,8 +19,7 @@ public Sum sum;
     }
 
     public boolean BustLogic(int sum) {
-        
-        
+         
         if (sum > 21) {
             return true;
         }
